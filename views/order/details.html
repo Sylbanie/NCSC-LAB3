@@ -1,0 +1,59 @@
+<h1>Order details</h1>
+
+<?php if (isset($order)): ?>
+		<?php if(isset($_SESSION['admin'])): ?>
+			<h3>Change order status</h3>
+			<form action="<?=base_url?>order/condition" method="POST">
+				<input type="hidden" value="<?=$order->id?>" name="order_id"/>
+				<select name="condition">
+					<option value="confirm" <?=$order->condition == "confirm" ? 'selected' : '';?>>Earing</option>
+					<option value="preparation" <?=$order->condition == "preparation" ? 'selected' : '';?>>In preparation</option>
+					<option value="ready" <?=$order->condition == "ready" ? 'selected' : '';?>>Ready to ship</option>
+					<option value="sent" <?=$order->condition == "sent" ? 'selected' : '';?>>Sent</option>
+				</select>
+				<input type="submit" value="Change condition" />
+			</form>
+			<br/>
+		<?php endif; ?>
+
+		<h3>Shipping address</h3>
+		Province: <?= $order->province ?>   <br/>
+		Town: <?= $order->location ?> <br/>
+		Diretion: <?= $order->diretion ?>   <br/><br/>
+
+		<h3>Order data:</h3>
+		condition: <?=Utils::showStatus($order->condition)?> <br/>
+		Order number: <?= $order->id ?>   <br/>
+		Total: <?= $order->coste ?> $ <br/>
+		Products:
+
+		<table>
+			<tr>
+				<th>Image</th>
+				<th>Name</th>
+				<th>Price</th>
+				<th>Units</th>
+			</tr>
+			<?php while ($product = $products->fetch_object()): ?>
+				<tr>
+					<td>
+						<?php if ($product->image != null): ?>
+							<img src="<?= base_url ?>uploads/images/<?= $product->image ?>" class="img_cart" />
+						<?php else: ?>
+							<img src="<?= base_url ?>assets/img/shirt.png" class="img_cart" />
+						<?php endif; ?>
+					</td>
+					<td>
+						<a href="<?= base_url ?>product/ver&id=<?= $product->id ?>"><?= $product->name ?></a>
+					</td>
+					<td>
+						<?= $product->price ?>
+					</td>
+					<td>
+						<?= $product->units ?>
+					</td>
+				</tr>
+			<?php endwhile; ?>
+		</table>
+
+	<?php endif; ?>

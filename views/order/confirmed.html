@@ -1,0 +1,47 @@
+<?php if (isset($_SESSION['order']) && $_SESSION['order'] == 'complete'): ?>
+	<h1>Your order has been confirmed</h1>
+	<p>
+		Your order has been saved successfully, sent after pay
+	</p>
+	<br/>
+	<?php if (isset($order)): ?>
+		<h3>Order details:</h3>
+
+		Order number: <?= $order->id ?>   <br/>
+		Total: <?= $order->cost ?> $ <br/>
+		Products:
+
+		<table>
+			<tr>
+				<th>Image</th>
+				<th>Name</th>
+				<th>Price</th>
+				<th>Units</th>
+			</tr>
+			<?php while ($product = $products->fetch_object()): ?>
+				<tr>
+					<td>
+						<?php if ($product->image != null): ?>
+							<img src="<?= base_url ?>uploads/images/<?= $product->image ?>" class="img_cart" />
+						<?php else: ?>
+							<img src="<?= base_url ?>assets/img/shirt.png" class="img_cart" />
+						<?php endif; ?>
+					</td>
+					<td>
+						<a href="<?= base_url ?>product/ver&id=<?= $product->id ?>"><?= $product->name ?></a>
+					</td>
+					<td>
+						<?= $product->price ?>
+					</td>
+					<td>
+						<?= $product->units ?>
+					</td>
+				</tr>
+			<?php endwhile; ?>
+		</table>
+
+	<?php endif; ?>
+
+<?php elseif (isset($_SESSION['order']) && $_SESSION['order'] != 'complete'): ?>
+	<h1>Sorry, your order could not be processed</h1>
+<?php endif; ?>

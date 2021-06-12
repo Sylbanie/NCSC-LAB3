@@ -1,0 +1,41 @@
+<h1>Product management</h1>
+
+<a href="<?=base_url?>product/create" class="button button-small">
+	Create product
+</a>
+
+<?php if(isset($_SESSION['product']) && $_SESSION['product'] == 'complete'): ?>
+	<strong class="alert_green">Product successfully created</strong>
+<?php elseif(isset($_SESSION['product']) && $_SESSION['product'] != 'complete'): ?>	
+	<strong class="alert_red">Fail creating product</strong>
+<?php endif; ?>
+<?php Utils::deleteSession('product'); ?>
+	
+<?php if(isset($_SESSION['delete']) && $_SESSION['delete'] == 'complete'): ?>
+	<strong class="alert_green">Product deleted successfully</strong>
+<?php elseif(isset($_SESSION['delete']) && $_SESSION['delete'] != 'complete'): ?>	
+	<strong class="alert_red">Fail deleting product</strong>
+<?php endif; ?>
+<?php Utils::deleteSession('delete'); ?>
+	
+<table>
+	<tr>
+		<th>ID</th>
+		<th>NAME</th>
+		<th>PRiICE</th>
+		<th>STOCK</th>
+		<th>ACTIONS</th>
+	</tr>
+	<?php while($pro = $products->fetch_object()): ?>
+		<tr>
+			<td><?=$pro->id;?></td>
+			<td><?=$pro->name;?></td>
+			<td><?=$pro->price;?></td>
+			<td><?=$pro->stock;?></td>
+			<td>
+				<a href="<?=base_url?>product/edit&id=<?=$pro->id?>" class="button button-management">Edited</a>
+				<a href="<?=base_url?>product/remove&id=<?=$pro->id?>" class="button button-management button-red">Remove</a>
+			</td>
+		</tr>
+	<?php endwhile; ?>
+</table>

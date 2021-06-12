@@ -1,0 +1,25 @@
+<?php if (isset($_SESSION['identity'])): ?>
+	<h1>Make order</h1>
+	<p>
+		<a href="<?= base_url ?>cart/index">View product</a>
+	</p>
+	<br/>
+	
+	<h3>Shipping address:</h3>
+	<form action="<?=base_url.'order/add'?>" method="POST">
+		<label for="province">Province</label>
+		<input type="text" name="province" required />
+		
+		<label for="town">Town</label>
+		<input type="text" name="location" required />
+		
+		<label for="direction">Direction</label>
+		<input type="text" name="direction" required />
+		
+		<input type="submit" value="Confirm order" />
+	</form>
+		
+<?php else: ?>
+	<h1>Identify yourself</h1>
+	<p>you need to log in first.</p>
+<?php endif; ?>
